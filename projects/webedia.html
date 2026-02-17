@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webedia — Community Manager — FLORAMVS</title>
+    <meta name="description" content="Gestion des réseaux sociaux pour Challengers France et VALORANT Champions">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../projet-styles.css">
+</head>
+<body>
+    <div id="cursor"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="../index.html" class="logo">← FLORAMVS</a>
+        <ul class="nav-links">
+            <li><a href="../index.html#accueil">Accueil</a></li>
+            <li><a href="../index.html#portfolio">Portfolio</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="project-hero" data-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+        <div class="project-hero-content">
+            <div class="project-category">Community Management</div>
+            <h1 class="project-title">Webedia</h1>
+            <p class="project-subtitle">Gestion des réseaux sociaux pour l'esport français</p>
+
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Client</span>
+                    <span class="meta-value">Webedia</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Période</span>
+                    <span class="meta-value">2025 - Présent</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Rôle</span>
+                    <span class="meta-value">Community Manager</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- Description -->
+    <section class="project-section project-description">
+        <div class="container-narrow">
+            <p class="lead">En tant que Community Manager pour Webedia, je gère l'ensemble des comptes de réseaux sociaux (Instagram, X et TikTok) pour les événements esport majeurs en France, incluant les Challengers France (Split 2 et 3 édition 2025, Split 1 édition 2026), ainsi que VALORANT Champions 2025.</p>
+        </div>
+    </section>
+
+    <!-- Challenge & Solution -->
+    <section class="project-section challenge-solution">
+        <div class="container">
+            <div class="two-columns">
+                <div class="column">
+                    <div class="section-label">Missions</div>
+                    <h2>Mes responsabilités</h2>
+                    <p>Gestion complète des comptes Instagram, X et TikTok pour les événements esport majeurs. Rédaction et planification des posts, adaptation des visuels, live-tweets pendant les compétitions, lancement des lives, création de contenus sur place et interviews de joueurs et coachs.</p>
+                </div>
+                <div class="column">
+                    <div class="section-label">Impact</div>
+                    <h2>Résultats</h2>
+                    <p>Couverture en temps réel des plus grands événements VALORANT en France, engagement fort de la communauté esport, contenu exclusif créé sur place avec les acteurs de la scène compétitive.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies & Role -->
+    <section class="project-section tech-role">
+        <div class="container">
+            <div class="two-columns">
+                <div class="column">
+                    <h3>Événements couverts</h3>
+                    <ul class="tech-list">
+                        <li>Challengers France Split 2 (2025)</li>
+                        <li>Challengers France Split 3 (2025)</li>
+                        <li>VALORANT Champions 2025</li>
+                        <li>Challengers France Split 1 (2026)</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3>Compétences mises en œuvre</h3>
+                    <ul class="role-list">
+                        <li>Gestion multi-plateformes (Instagram, X, TikTok)</li>
+                        <li>Rédaction et planification de contenus</li>
+                        <li>Adaptation de visuels</li>
+                        <li>Live-tweeting d'événements</li>
+                        <li>Création de contenus on-site</li>
+                        <li>Interviews de joueurs et coachs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results -->
+    <section class="project-section project-results">
+        <div class="container-narrow">
+            <h2>Informations complémentaires</h2>
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="result-icon">📱</div>
+                    <h3>Multi-plateforme</h3>
+                    <p>Gestion simultanée de 3 réseaux sociaux majeurs</p>
+                </div>
+                <div class="result-card">
+                    <div class="result-icon">🎮</div>
+                    <h3>Esport de haut niveau</h3>
+                    <p>Couverture des plus grands tournois VALORANT</p>
+                </div>
+                <div class="result-card">
+                    <div class="result-icon">⚡</div>
+                    <h3>Contenu en temps réel</h3>
+                    <p>Live-tweets et création instantanée pendant les événements</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Links -->
+    <section class="project-section project-links">
+        <div class="container-narrow">
+            <a href="https://www.webedia-group.com/" target="_blank" rel="noopener noreferrer" class="project-link">
+                Visiter Webedia →
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; <span id="current-year"></span> FLORAMVS. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Hero gradient
+        const hero = document.querySelector('.project-hero');
+        const heroGradient = hero.dataset.gradient;
+        hero.style.background = heroGradient;
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.project-section, .result-card').forEach(item => {
+            observer.observe(item);
+        });
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+<script src="../cursor.js"></script>
+</body>
+</html>

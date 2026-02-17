@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLORAMVS — Design & Innovation</title>
+    <meta name="description" content="Studio de design et développement créant des expériences digitales mémorables">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="lightbox-styles.css">
+</head>
+<body>
+    <div id="cursor"></div>
+
+    <nav id="navbar">
+        <a href="#accueil" class="logo">FLORAMVS</a>
+        <ul class="nav-links">
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#clients">Collaborations</a></li>
+            <li><a href="#stats">Réseaux</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="mobile-menu-toggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <section class="hero" id="accueil">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+        <div class="hero-content">
+            <h1>Créer l'inoubliable</h1>
+            <p>Design d'expériences qui marquent les esprits</p>
+            <button class="cta-button" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
+                Découvrir notre univers
+            </button>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <section class="section clients-section" id="clients">
+        <div class="section-header">
+            <h2 class="section-title">Collaborations</h2>
+            <p class="section-subtitle">Créateurs et entreprises avec qui j'ai travaillé</p>
+        </div>
+
+        <!-- Streamers -->
+        <div class="collab-category">
+            <h3 class="collab-category-title">Streamers & Créateurs</h3>
+            <div class="clients-carousel">
+                <div id="streamers-container" class="clients-track">
+                    <!-- Généré dynamiquement par data.js -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Entreprises -->
+        <div class="collab-category">
+            <h3 class="collab-category-title">Entreprises & Marques</h3>
+            <div class="companies-single">
+                <div id="companies-container" class="companies-grid">
+                    <!-- Généré dynamiquement par data.js -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Événements -->
+        <div class="collab-category">
+            <h3 class="collab-category-title">Événements</h3>
+            <div class="events-grid-container">
+                <div id="events-container" class="events-grid">
+                    <!-- Généré dynamiquement par data.js -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section social-stats-section" id="stats">
+        <div class="section-header">
+            <h2 class="section-title">Réseaux & Statistiques</h2>
+            <p class="section-subtitle">Mon impact sur les réseaux sociaux</p>
+        </div>
+        <div id="social-stats-container" class="social-stats-container">
+            <!-- Généré dynamiquement par data.js -->
+        </div>
+    </section>
+
+    <section class="section portfolio-section" id="portfolio">
+        <div class="section-header">
+            <h2 class="section-title">Portfolio</h2>
+            <p class="section-subtitle">Mes créations qui inspirent</p>
+        </div>
+        <div class="portfolio-container">
+            <div class="portfolio-filters">
+                <button class="filter-btn active" data-filter="all">Tout</button>
+                <button class="filter-btn" data-filter="affiches">Affiches</button>
+                <button class="filter-btn" data-filter="design">Design</button>
+                <button class="filter-btn" data-filter="branding">Branding</button>
+                <button class="filter-btn" data-filter="photos">Photos</button>
+            </div>
+
+            <div id="portfolio-grid" class="portfolio-grid">
+                <!-- Généré dynamiquement par data.js -->
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="services">
+        <div class="section-header">
+            <h2 class="section-title">Nos services</h2>
+            <p class="section-subtitle">Des solutions sur mesure pour chaque projet</p>
+        </div>
+        <div id="services-container" class="cards-grid">
+            <!-- Généré dynamiquement par data.js -->
+        </div>
+    </section>
+
+    <section class="section contact-section" id="contact">
+        <div class="section-header">
+            <h2 class="section-title">Parlons de votre projet</h2>
+            <p class="section-subtitle">Prêt à créer quelque chose d'extraordinaire ensemble ?</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-content">
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" required>
+                        <label for="name">Votre nom</label>
+                        <span class="form-line"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" required>
+                        <label for="email">Votre email</label>
+                        <span class="form-line"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                        <label for="message">Votre message</label>
+                        <span class="form-line"></span>
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        <span class="button-text">Envoyer</span>
+                        <span class="button-icon">→</span>
+                    </button>
+
+                    <div id="form-status" class="form-status"></div>
+                </form>
+
+                <div id="contact-info" class="contact-info">
+                    <!-- Généré dynamiquement par data.js -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; <span id="current-year"></span> FLORAMVS. Tous droits réservés.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script src="cursor.js"></script>
+    <script src="lightbox-affiches.js"></script>
+    <script src="api-stats.js"></script>
+</body>
+</html>

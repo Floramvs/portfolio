@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails du Service — FLORAMVS</title>
+    <meta name="description" content="Détails et tarifs de nos services créatifs">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .service-detail-page {
+            min-height: 100vh;
+            padding: 8rem 2rem 4rem;
+            background: var(--bg);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        .back-button:hover {
+            color: var(--accent-light);
+            transform: translateX(-5px);
+        }
+
+        .service-detail-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--surface);
+            border-radius: 30px;
+            padding: 4rem;
+            border: 1px solid var(--border);
+            opacity: 0;
+            animation: fadeInUp 0.8s forwards 0.2s;
+        }
+
+        .service-detail-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .service-detail-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .service-detail-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .service-detail-description {
+            font-size: 1.2rem;
+            color: rgba(232, 232, 240, 0.8);
+            line-height: 1.8;
+        }
+
+        .service-features {
+            margin: 3rem 0;
+        }
+
+        .service-features h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .service-features ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .service-features li {
+            position: relative;
+            padding-left: 2.5rem;
+            color: rgba(232, 232, 240, 0.9);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            padding: 1.2rem;
+            padding-left: 3rem;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .service-features li:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateX(10px);
+        }
+
+        .service-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 1.2rem;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .pricing-section {
+            margin-top: 3rem;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent);
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .pricing-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .pricing-options {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .pricing-option {
+            padding: 2rem;
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+
+        .pricing-option:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .pricing-option-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-option-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .pricing-option-description {
+            font-size: 1rem;
+            color: rgba(232, 232, 240, 0.7);
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        .cta-button-primary,
+        .cta-button-secondary {
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .cta-button-primary {
+            background: var(--accent);
+            color: white;
+            border: 2px solid var(--accent);
+        }
+
+        .cta-button-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .cta-button-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .cta-button-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent-light);
+        }
+
+        @media (max-width: 768px) {
+            .service-detail-container {
+                padding: 2rem;
+            }
+
+            .service-detail-title {
+                font-size: 2rem;
+            }
+
+            .service-detail-icon {
+                font-size: 4rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .pricing-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="cursor"></div>
+
+    <nav id="navbar">
+        <a href="index.html#accueil" class="logo">FLORAMVS</a>
+        <ul class="nav-links">
+            <li><a href="index.html#accueil">Accueil</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#portfolio">Portfolio</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <button class="mobile-menu-toggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <div class="service-detail-page">
+        <a href="index.html#services" class="back-button">
+            ← Retour aux services
+        </a>
+
+        <div class="service-detail-container" id="service-content">
+            <!-- Le contenu sera généré dynamiquement par JavaScript -->
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; <span id="current-year"></span> FLORAMVS. Tous droits réservés.</p>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="cursor.js"></script>
+    <script>
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            // Année courante
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Menu mobile
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', () => {
+                    menuToggle.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+            }
+
+            // Récupérer le service depuis l'URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const serviceName = urlParams.get('service');
+
+            if (!serviceName) {
+                window.location.href = 'index.html#services';
+                return;
+            }
+
+            // Trouver le service dans les données
+            const service = siteData.services.find(s => s.title === serviceName);
+
+            if (!service) {
+                window.location.href = 'index.html#services';
+                return;
+            }
+
+            // Générer le contenu
+            generateServiceDetails(service);
+        });
+
+        function generateServiceDetails(service) {
+            const container = document.getElementById('service-content');
+
+            const detailsHTML = service.details
+                ? `<ul>${service.details.map(detail => `<li>${detail}</li>`).join('')}</ul>`
+                : '';
+
+            // Options de tarifs selon le service
+            let pricingHTML = '';
+            if (service.pricing === "Sur devis") {
+                pricingHTML = `
+                    <div class="pricing-section">
+                        <h3>Tarification personnalisée</h3>
+                        <p style="color: rgba(232, 232, 240, 0.7); margin-top: 1rem; font-size: 1.1rem;">
+                            Chaque projet est unique. Contactez-moi pour obtenir un devis adapté à vos besoins et votre budget.
+                        </p>
+                        <div class="cta-buttons">
+                            <a href="index.html#contact" class="cta-button-primary">
+                                Demander un devis
+                            </a>
+                            <a href="index.html#services" class="cta-button-secondary">
+                                Voir les autres services
+                            </a>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Pour les services avec prix fixe, proposer des options
+                pricingHTML = `
+                    <div class="pricing-section">
+                        <h3>Tarifs et formules</h3>
+                        <div class="pricing-options">
+                            <div class="pricing-option">
+                                <div class="pricing-option-name">Formule Essentielle</div>
+                                <div class="pricing-option-price">${service.pricing}</div>
+                                <div class="pricing-option-description">
+                                    Idéal pour débuter avec un projet simple et efficace.
+                                </div>
+                            </div>
+                            <div class="pricing-option">
+                                <div class="pricing-option-name">Formule Premium</div>
+                                <div class="pricing-option-price">Sur devis</div>
+                                <div class="pricing-option-description">
+                                    Pour des projets plus complexes nécessitant des fonctionnalités avancées et un suivi personnalisé.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cta-buttons">
+                            <a href="index.html#contact" class="cta-button-primary">
+                                Commencer mon projet
+                            </a>
+                            <a href="index.html#services" class="cta-button-secondary">
+                                Voir les autres services
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = `
+                <div class="service-detail-header">
+                    <div class="service-detail-icon">${service.icon}</div>
+                    <h1 class="service-detail-title">${service.title}</h1>
+                    <p class="service-detail-description">${service.description}</p>
+                </div>
+
+                <div class="service-features">
+                    <h3>Ce qui est inclus</h3>
+                    ${detailsHTML}
+                </div>
+
+                ${pricingHTML}
+            `;
+        }
+    </script>
+</body>
+</html>

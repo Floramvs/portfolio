@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valorant Champions Paris 2024 — FLORAMVS</title>
+    <meta name="description" content="Valorant Champions Paris 2024 — Championnat du monde Valorant, Community Manager pour Webedia / @valleague_fr">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .event-detail-page {
+            min-height: 100vh;
+            padding: 8rem 2rem 4rem;
+            background: var(--bg);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        .back-button:hover {
+            color: var(--accent-light);
+            transform: translateX(-5px);
+        }
+
+        .event-detail-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--surface);
+            border-radius: 30px;
+            padding: 4rem;
+            border: 1px solid var(--border);
+            opacity: 0;
+            animation: fadeInUp 0.8s forwards 0.2s;
+        }
+
+        .event-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .event-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .event-date {
+            font-size: 1.2rem;
+            color: var(--accent-light);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .event-tagline {
+            font-size: 1.3rem;
+            color: rgba(232, 232, 240, 0.8);
+            line-height: 1.6;
+        }
+
+        .event-image-container {
+            margin: 3rem 0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .event-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .event-content {
+            margin: 3rem 0;
+        }
+
+        .event-section {
+            margin-bottom: 3rem;
+        }
+
+        .event-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .event-section h2::before {
+            content: '';
+            width: 4px;
+            height: 30px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .event-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(232, 232, 240, 0.9);
+            margin-bottom: 1rem;
+        }
+
+        .missions-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .missions-list li {
+            position: relative;
+            padding-left: 3rem;
+            padding: 1.2rem;
+            padding-left: 3.5rem;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            color: rgba(232, 232, 240, 0.9);
+            transition: all 0.3s;
+        }
+
+        .missions-list li:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateX(10px);
+        }
+
+        .missions-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 1.5rem;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-button-primary,
+        .cta-button-secondary {
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .cta-button-primary {
+            background: var(--accent);
+            color: white;
+            border: 2px solid var(--accent);
+        }
+
+        .cta-button-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .cta-button-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .cta-button-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent-light);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .event-detail-container {
+                padding: 2rem;
+            }
+
+            .event-title {
+                font-size: 2.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="cursor"></div>
+
+    <nav id="navbar">
+        <a href="../index.html#accueil" class="logo">FLORAMVS</a>
+        <ul class="nav-links">
+            <li><a href="../index.html#accueil">Accueil</a></li>
+            <li><a href="../index.html#services">Services</a></li>
+            <li><a href="../index.html#portfolio">Portfolio</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+        <button class="mobile-menu-toggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <div class="event-detail-page">
+        <a href="../index.html#clients" class="back-button">
+            ← Retour aux collaborations
+        </a>
+
+        <div class="event-detail-container">
+            <div class="event-header">
+                <h1 class="event-title">Valorant Champions Paris 2024</h1>
+                <p class="event-date">📅 12 septembre — 5 octobre 2024</p>
+                <p class="event-tagline">
+                    Le Championnat du Monde Valorant — 16 meilleures équipes mondiales, Paris, France
+                </p>
+            </div>
+
+            <div class="event-image-container">
+                <img src="../images/champions.jpg" alt="Valorant Champions Paris 2024" class="event-image">
+            </div>
+
+            <div class="event-content">
+                <div class="event-section">
+                    <h2>À propos de l'événement</h2>
+                    <p>
+                        Valorant Champions 2024 est le championnat du monde de Valorant organisé par Riot Games, réunissant les 16 meilleures équipes du monde entier. Première édition de l'événement mondial à se tenir en Europe, il s'est déroulé en deux temps à Paris :
+                    </p>
+                    <p>
+                        Les phases de groupes et les premiers tours éliminatoires ont eu lieu aux <strong>Arènes d'Évry</strong> du 12 au 29 septembre. La compétition s'est ensuite déplacée à l'<strong>Accor Arena</strong> pour les demi-finales et la grande finale, du 3 au 5 octobre.
+                    </p>
+                    <p>
+                        J'ai couvert cet événement pour <strong>Webedia</strong>, en tant que Community Manager de la communication française officielle des Champions sur les comptes <strong>@valleague_fr</strong> (Twitter / Instagram).
+                    </p>
+                </div>
+
+                <div class="event-section">
+                    <h2>Mes missions</h2>
+                    <ul class="missions-list">
+                        <li>Community Management des comptes @valleague_fr (Twitter & Instagram) pendant toute la durée de l'événement</li>
+                        <li>Live-tweet des matchs en temps réel — couverture de chaque rencontre pour la communauté francophone</li>
+                        <li>Interviews sur le terrain — public, casters, joueurs et coachs pour produire du contenu exclusif</li>
+                        <li>Création de contenus photo & vidéo en conditions réelles — stories, posts, contenus pour Instagram et Twitter</li>
+                        <li>Prise de vue photo et vidéo sur place dans les deux salles (Arènes d'Évry & Accor Arena)</li>
+                    </ul>
+                </div>
+
+                <div class="event-section">
+                    <h2>Résultats & Impact</h2>
+                    <p>
+                        À compléter — je reviens avec les stats des comptes @valleague_fr.
+                    </p>
+                </div>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="../index.html#contact" class="cta-button-primary">
+                    Travaillons ensemble
+                </a>
+                <a href="../index.html#clients" class="cta-button-secondary">
+                    Voir les autres événements
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; <span id="current-year"></span> FLORAMVS. Tous droits réservés.</p>
+    </footer>
+
+    <script src="../cursor.js"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Menu mobile
+        const menuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>

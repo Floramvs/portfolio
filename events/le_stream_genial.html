@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Stream Génial — FLORAMVS</title>
+    <meta name="description" content="Mon travail sur l'événement Le Stream Génial">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .event-detail-page {
+            min-height: 100vh;
+            padding: 8rem 2rem 4rem;
+            background: var(--bg);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        .back-button:hover {
+            color: var(--accent-light);
+            transform: translateX(-5px);
+        }
+
+        .event-detail-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--surface);
+            border-radius: 30px;
+            padding: 4rem;
+            border: 1px solid var(--border);
+            opacity: 0;
+            animation: fadeInUp 0.8s forwards 0.2s;
+        }
+
+        .event-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .event-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .event-date {
+            font-size: 1.2rem;
+            color: var(--accent-light);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .event-tagline {
+            font-size: 1.3rem;
+            color: rgba(232, 232, 240, 0.8);
+            line-height: 1.6;
+        }
+
+        .event-image-container {
+            margin: 3rem 0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .event-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .event-content {
+            margin: 3rem 0;
+        }
+
+        .event-section {
+            margin-bottom: 3rem;
+        }
+
+        .event-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .event-section h2::before {
+            content: '';
+            width: 4px;
+            height: 30px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .event-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(232, 232, 240, 0.9);
+            margin-bottom: 1rem;
+        }
+
+        .missions-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .missions-list li {
+            position: relative;
+            padding-left: 3rem;
+            padding: 1.2rem;
+            padding-left: 3.5rem;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            color: rgba(232, 232, 240, 0.9);
+            transition: all 0.3s;
+        }
+
+        .missions-list li:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateX(10px);
+        }
+
+        .missions-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 1.5rem;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-button-primary,
+        .cta-button-secondary {
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .cta-button-primary {
+            background: var(--accent);
+            color: white;
+            border: 2px solid var(--accent);
+        }
+
+        .cta-button-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .cta-button-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .cta-button-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent-light);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .event-detail-container {
+                padding: 2rem;
+            }
+
+            .event-title {
+                font-size: 2.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="cursor"></div>
+
+    <nav id="navbar">
+        <a href="../index.html#accueil" class="logo">FLORAMVS</a>
+        <ul class="nav-links">
+            <li><a href="../index.html#accueil">Accueil</a></li>
+            <li><a href="../index.html#services">Services</a></li>
+            <li><a href="../index.html#portfolio">Portfolio</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+        <button class="mobile-menu-toggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <div class="event-detail-page">
+        <a href="../index.html#clients" class="back-button">
+            ← Retour aux collaborations
+        </a>
+
+        <div class="event-detail-container">
+            <div class="event-header">
+                <h1 class="event-title">Le Stream Génial</h1>
+                <p class="event-date">📅 [Date de l'événement]</p>
+                <p class="event-tagline">
+                    [Description courte de l'événement Le Stream Génial]
+                </p>
+            </div>
+
+            <div class="event-image-container">
+                <img src="../images/Le Stream Génial.jpg" alt="Le Stream Génial" class="event-image">
+            </div>
+
+            <div class="event-content">
+                <div class="event-section">
+                    <h2>À propos de l'événement</h2>
+                    <p>
+                        [Décrivez l'événement Le Stream Génial : de quoi s'agissait-il, l'ampleur, le contexte,
+                        l'audience, les enjeux, etc.]
+                    </p>
+                </div>
+
+                <div class="event-section">
+                    <h2>Mes missions</h2>
+                    <ul class="missions-list">
+                        <li>[Mission 1 : par exemple "Création de l'identité visuelle de l'événement"]</li>
+                        <li>[Mission 2 : par exemple "Gestion des réseaux sociaux pendant l'événement"]</li>
+                        <li>[Mission 3 : par exemple "Production de contenus vidéo en direct"]</li>
+                        <li>[Mission 4 : ajoutez autant de missions que nécessaire]</li>
+                    </ul>
+                </div>
+
+                <div class="event-section">
+                    <h2>Résultats & Impact</h2>
+                    <p>
+                        [Partagez les résultats de votre travail : impressions, engagement, retombées,
+                        feedback positif, etc.]
+                    </p>
+                </div>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="../index.html#contact" class="cta-button-primary">
+                    Travaillons ensemble
+                </a>
+                <a href="../index.html#clients" class="cta-button-secondary">
+                    Voir les autres événements
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; <span id="current-year"></span> FLORAMVS. Tous droits réservés.</p>
+    </footer>
+
+    <script src="../cursor.js"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Menu mobile
+        const menuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>

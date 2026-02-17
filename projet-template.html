@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TITLE}} — Studio Éther</title>
+    <meta name="description" content="{{DESCRIPTION}}">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../projet-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="../index.html" class="logo">← Éther</a>
+        <ul class="nav-links">
+            <li><a href="../index.html#accueil">Accueil</a></li>
+            <li><a href="../index.html#portfolio">Portfolio</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="project-hero" data-gradient="{{HERO_GRADIENT}}" data-image="{{HERO_IMAGE}}">
+        <div class="project-hero-content">
+            <div class="project-category">{{CATEGORY}}</div>
+            <h1 class="project-title">{{TITLE}}</h1>
+            <p class="project-subtitle">{{SUBTITLE}}</p>
+            
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Client</span>
+                    <span class="meta-value">{{CLIENT}}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Année</span>
+                    <span class="meta-value">{{YEAR}}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Catégorie</span>
+                    <span class="meta-value">{{CATEGORY}}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- Description -->
+    <section class="project-section project-description">
+        <div class="container-narrow">
+            <p class="lead">{{DESCRIPTION}}</p>
+        </div>
+    </section>
+
+    <!-- Challenge & Solution -->
+    <section class="project-section challenge-solution">
+        <div class="container">
+            <div class="two-columns">
+                <div class="column">
+                    <div class="section-label">Challenge</div>
+                    <h2>Le défi</h2>
+                    <p>{{CHALLENGE}}</p>
+                </div>
+                <div class="column">
+                    <div class="section-label">Solution</div>
+                    <h2>Notre approche</h2>
+                    <p>{{SOLUTION}}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies & Role -->
+    <section class="project-section tech-role">
+        <div class="container">
+            <div class="two-columns">
+                <div class="column">
+                    <h3>Technologies</h3>
+                    <ul class="tech-list">
+                        {{TECHNOLOGIES}}
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3>Mon rôle</h3>
+                    <ul class="role-list">
+                        {{ROLE}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="project-section project-gallery">
+        <div class="container-wide">
+            {{GALLERY}}
+        </div>
+    </section>
+
+    <!-- Results -->
+    <section class="project-section project-results">
+        <div class="container-narrow">
+            <h2>Résultats & Impact</h2>
+            <div class="results-grid">
+                {{RESULTS}}
+            </div>
+        </div>
+    </section>
+
+    <!-- Links -->
+    {{LINKS_SECTION}}
+
+    <!-- Next Project -->
+    {{NEXT_PROJECT}}
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; <span id="current-year"></span> Studio Éther. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Hero image or gradient
+        const hero = document.querySelector('.project-hero');
+        const heroImage = hero.dataset.image;
+        const heroGradient = hero.dataset.gradient;
+        
+        if (heroImage && heroImage !== 'null') {
+            hero.style.background = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('${heroImage}')`;
+            hero.style.backgroundSize = 'cover';
+            hero.style.backgroundPosition = 'center';
+        } else {
+            hero.style.background = heroGradient;
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.project-section, .gallery-item, .result-card').forEach(item => {
+            observer.observe(item);
+        });
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

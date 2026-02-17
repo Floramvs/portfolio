@@ -1,0 +1,513 @@
+/* ========================================
+   STYLES PAGES PROJET
+   ======================================== */
+
+/* Les variables du site principal sont chargées via styles.css dans le HTML */
+
+/* ========================================
+   CONTENEURS
+   ======================================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.container-narrow {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.container-wide {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ========================================
+   HERO PROJET
+   ======================================== */
+.project-hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.project-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(10, 10, 15, 0.3), rgba(10, 10, 15, 0.8));
+    z-index: 1;
+}
+
+.project-hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 2rem;
+    opacity: 0;
+    animation: fadeInUp 1s forwards 0.3s;
+}
+
+.project-category {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(99, 102, 241, 0.5);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-light);
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.project-title {
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.project-subtitle {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: rgba(232, 232, 240, 0.8);
+    margin-bottom: 3rem;
+}
+
+.project-meta {
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.meta-label {
+    font-size: 0.85rem;
+    color: rgba(232, 232, 240, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.meta-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* ========================================
+   SECTIONS
+   ======================================== */
+.project-section {
+    padding: 6rem 2rem;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s, transform 0.8s;
+}
+
+.project-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section-label {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+/* ========================================
+   DESCRIPTION
+   ======================================== */
+.project-description {
+    background: var(--surface);
+}
+
+.lead {
+    font-size: 1.5rem;
+    line-height: 1.8;
+    color: rgba(232, 232, 240, 0.9);
+    text-align: center;
+}
+
+/* ========================================
+   CHALLENGE & SOLUTION
+   ======================================== */
+.challenge-solution {
+    background: var(--bg);
+}
+
+.two-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 4rem;
+}
+
+.column h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+}
+
+.column p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(232, 232, 240, 0.8);
+}
+
+/* ========================================
+   TECHNOLOGIES & ROLE
+   ======================================== */
+.tech-role {
+    background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%);
+}
+
+.tech-role h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+}
+
+.tech-list,
+.role-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.tech-list li,
+.role-list li {
+    padding: 0.8rem 1.5rem;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--accent-light);
+    transition: all 0.3s;
+}
+
+.tech-list li:hover,
+.role-list li:hover {
+    background: rgba(99, 102, 241, 0.2);
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   GALLERY
+   ======================================== */
+.project-gallery {
+    background: var(--surface);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--bg);
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.6s, transform 0.6s;
+}
+
+.gallery-item.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-caption {
+    padding: 1.5rem;
+    background: var(--bg);
+    font-size: 0.95rem;
+    color: rgba(232, 232, 240, 0.7);
+    text-align: center;
+}
+
+/* Placeholder pour images manquantes */
+.gallery-placeholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* ========================================
+   RESULTS
+   ======================================== */
+.project-results {
+    background: var(--bg);
+}
+
+.project-results h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.result-card {
+    padding: 2rem;
+    background: var(--surface);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 16px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s, transform 0.6s, border-color 0.3s;
+}
+
+.result-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.result-card:hover {
+    border-color: var(--accent);
+}
+
+.result-card::before {
+    content: '✓';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.result-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(232, 232, 240, 0.8);
+    margin-top: 1rem;
+}
+
+/* ========================================
+   LINKS
+   ======================================== */
+.project-links {
+    background: var(--surface);
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.project-links h3 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: var(--text);
+}
+
+.links-container {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 2rem;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+}
+
+.project-link.secondary {
+    background: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+}
+
+/* ========================================
+   NEXT PROJECT
+   ======================================== */
+.next-project {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.next-project::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(10, 10, 15, 0.7), rgba(10, 10, 15, 0.9));
+    z-index: 1;
+}
+
+.next-project-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 2rem;
+}
+
+.next-label {
+    font-size: 0.9rem;
+    color: rgba(232, 232, 240, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+}
+
+.next-project-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    color: var(--text);
+}
+
+.next-project-link {
+    display: inline-block;
+    padding: 1.2rem 3rem;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.next-project-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+    .project-section {
+        padding: 4rem 1.5rem;
+    }
+    
+    .project-hero-content {
+        padding: 1rem;
+    }
+    
+    .project-meta {
+        gap: 1.5rem;
+    }
+    
+    .two-columns {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .lead {
+        font-size: 1.2rem;
+    }
+    
+    .project-title {
+        font-size: 2.5rem;
+    }
+    
+    .next-project-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-section {
+        padding: 3rem 1rem;
+    }
+    
+    .container,
+    .container-narrow,
+    .container-wide {
+        padding: 0 1rem;
+    }
+}

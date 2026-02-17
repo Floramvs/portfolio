@@ -1,0 +1,33 @@
+DESCRIPTION POUR L'API TWITTER / X DEVELOPER
+============================================
+
+Nom du projet : Portfolio Professionnel Flora
+
+Description (minimum 250 caractères) :
+
+Je suis community manager et créatrice de contenu professionnelle avec un portfolio en ligne (ether-studio.com) présentant mes services et collaborations avec des entreprises et créateurs de contenu dans l'industrie de l'esport et du gaming.
+
+J'utiliserai l'API Twitter pour afficher mes statistiques publiques en temps réel sur mon site portfolio professionnel, incluant le nombre d'abonnés, d'impressions, et d'engagements. Cela permettra aux clients potentiels et partenaires de voir l'impact et la portée de mon travail sur les réseaux sociaux de manière transparente et actualisée.
+
+L'API sera utilisée uniquement pour récupérer mes propres statistiques de compte public (@floramvs) via l'endpoint users/by/username avec les métriques publiques (public_metrics). Les données seront mises en cache localement pour minimiser les appels API et respecter les limites de taux.
+
+Aucune publication, modification de données, ou interaction avec d'autres comptes ne sera effectuée. L'utilisation est strictement limitée à l'affichage en lecture seule de mes propres statistiques publiques pour des fins professionnelles et de transparence envers les clients.
+
+---
+
+ALTERNATIVE PLUS COURTE (si le formulaire accepte moins de texte) :
+
+Je développe mon portfolio professionnel en tant que community manager et créatrice de contenu. J'utiliserai l'API Twitter pour afficher mes statistiques publiques (abonnés, impressions, engagement) en temps réel sur mon site web. Cela permettra aux clients potentiels de voir l'impact de mon travail. L'API sera utilisée en lecture seule uniquement pour récupérer mes propres métriques publiques via l'endpoint users/by/username, avec mise en cache pour respecter les limites de taux. Aucune publication ou modification ne sera effectuée.
+
+---
+
+INFORMATIONS SUPPLÉMENTAIRES POUR LE FORMULAIRE :
+
+Type d'accès demandé : Essential (gratuit)
+Endpoint principaux :
+- GET /2/users/by/username/:username
+- User fields: public_metrics
+
+Fréquence d'utilisation : 1 requête par heure (très faible)
+Nombre d'utilisateurs : 1 (vous-même)
+Public : Non (usage personnel pour portfolio)
