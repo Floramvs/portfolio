@@ -87,34 +87,45 @@ function generateStreamers() {
         </div>
     `).join('');
 
-    // 2 sets identiques dans le DOM
+    // 2 sets identiques dans le DOM — quand on a scrollé d'une moitié, on remet à 0
     container.innerHTML = oneSetHTML + oneSetHTML;
 
     let offset = 0;
     let halfWidth = 0;
     let paused = false;
+    let loopStarted = false;
     const speed = 0.5;
+
+    function startLoop() {
+        if (loopStarted) return; // évite les démarrages multiples
+        loopStarted = true;
+
+        // Mesure après un frame pour que le DOM soit rendu
+        requestAnimationFrame(() => {
+            halfWidth = container.scrollWidth / 2;
+
+            function tick() {
+                if (!paused) {
+                    offset += speed;
+                    if (offset >= halfWidth) {
+                        offset -= halfWidth; // reset instantané et invisible
+                    }
+                    container.style.transform = `translateX(-${offset}px)`;
+                }
+                requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+        });
+    }
 
     // Attendre que toutes les images soient chargées avant de mesurer
     const allImgs = container.querySelectorAll('img');
     let loaded = 0;
     const total = allImgs.length;
 
-    function startLoop() {
-        // Mesure la vraie moitié après chargement complet
-        halfWidth = container.scrollWidth / 2;
-
-        function tick() {
-            if (!paused) {
-                offset += speed;
-                if (offset >= halfWidth) {
-                    offset -= halfWidth; // reset instantané et invisible
-                }
-                container.style.transform = `translateX(-${offset}px)`;
-            }
-            requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
+    function onImgDone() {
+        loaded++;
+        if (loaded >= total) startLoop();
     }
 
     if (total === 0) {
@@ -122,17 +133,21 @@ function generateStreamers() {
     } else {
         allImgs.forEach(img => {
             if (img.complete) {
-                loaded++;
-                if (loaded === total) startLoop();
+                onImgDone();
             } else {
-                img.addEventListener('load',  () => { loaded++; if (loaded === total) startLoop(); });
-                img.addEventListener('error', () => { loaded++; if (loaded === total) startLoop(); });
+                img.addEventListener('load',  onImgDone);
+                img.addEventListener('error', onImgDone);
             }
         });
     }
 
-    container.parentElement.addEventListener('mouseenter', () => { paused = true; });
-    container.parentElement.addEventListener('mouseleave', () => { paused = false; });
+    // Pause uniquement au survol des items (logos), pas du fond du carousel
+    container.addEventListener('mouseover', (e) => {
+        if (e.target.closest('.client-item')) paused = true;
+    });
+    container.addEventListener('mouseout', (e) => {
+        if (e.target.closest('.client-item')) paused = false;
+    });
 }
 
 function generateCompanies() {
@@ -168,42 +183,38 @@ function generateSocialStats() {
     if (!container || !siteData.socialStats) return;
 
     container.innerHTML = siteData.socialStats.map((social, index) => {
-        const statsHTML = social.stats.map(stat => `
-            <div class="stat-item">
-                <span class="stat-value">${stat.value}</span>
-                <span class="stat-label">${stat.label}</span>
+        const hero = social.stats[0];
+        const rest = social.stats.slice(1);
+
+        const restHTML = rest.map(stat => `
+            <div class="sn-sub-stat">
+                <span class="sn-sub-value">${stat.value}</span>
+                <span class="sn-sub-label">${stat.label}</span>
             </div>
         `).join('');
 
         return `
-            <a href="${social.link}" target="_blank" rel="noopener noreferrer" class="social-card-link">
-                <div class="social-card" style="--social-color: ${social.color}; animation-delay: ${index * 0.15}s">
-                    <div class="social-header">
-                        <div class="social-icon">${social.icon}</div>
-                        <div class="social-info">
-                            <div class="social-platform">${social.platform}</div>
-                            <div class="social-handle">${social.handle}</div>
+            <a href="${social.link}" target="_blank" rel="noopener noreferrer" class="sn-card-link">
+                <div class="sn-card" style="--sc: ${social.color}; animation-delay: ${index * 0.08}s">
+                    <div class="sn-top">
+                        <div class="sn-identity">
+                            <span class="sn-icon">${social.icon}</span>
+                            <div>
+                                <div class="sn-platform">${social.platform}</div>
+                                <div class="sn-handle">${social.handle}</div>
+                            </div>
                         </div>
-                        <div class="social-followers">
-                            <span class="followers-count">${social.followers}</span>
-                            <span class="followers-label">abonnés</span>
-                        </div>
+                        ${social.followers ? `<div class="sn-followers">
+                            <span class="sn-fcount">${social.followers}</span>
+                            <span class="sn-flabel">abonnés</span>
+                        </div>` : ''}
                     </div>
-
-                    <div class="social-stats-grid">
-                        ${statsHTML}
+                    <div class="sn-hero">
+                        <span class="sn-hero-value">${hero.value}</span>
+                        <span class="sn-hero-label">${hero.label}</span>
                     </div>
-
-                    <div class="social-engagement">
-                        <span class="engagement-rate">${social.engagement}</span>
-                        <span class="engagement-label">d'engagement moyen</span>
-                    </div>
-
-                    <div class="social-note">${social.note}</div>
-
-                    <div class="social-cta">
-                        <span class="cta-text">Voir le profil</span>
-                        <span class="cta-arrow">→</span>
+                    <div class="sn-sub-row">
+                        ${restHTML}
                     </div>
                 </div>
             </a>
@@ -211,29 +222,177 @@ function generateSocialStats() {
     }).join('');
 }
 
-function generatePortfolio() {
+const PHOTOS_PAR_PAGE = 16;
+
+function renderPortfolioItems(filter, showAll = false) {
     const container = document.getElementById('portfolio-grid');
     if (!container || !siteData.portfolio) return;
 
-    container.innerHTML = siteData.portfolio.map((project, index) => {
+    // Filtre les items selon la catégorie
+    // "Tout" = affiches + miniatures uniquement (pas les photos ni les vidéos)
+    const filtered = siteData.portfolio.filter(project => {
+        if (filter === 'all') return project.category !== 'photos' && project.category !== 'videos';
+        return project.category === filter;
+    });
+
+    // Pour les photos : limiter à 15 sauf si "voir plus" a été cliqué
+    const isPhotos = filter === 'photos';
+    const displayItems = (isPhotos && !showAll)
+        ? filtered.slice(0, PHOTOS_PAR_PAGE)
+        : filtered;
+    const hasMore = isPhotos && !showAll && filtered.length > PHOTOS_PAR_PAGE;
+
+    // Affichage spécial pour la section vidéos (vide pour l'instant)
+    if (filter === 'videos') {
+        const videos = siteData.portfolio ? siteData.portfolio.filter(p => p.category === 'videos') : [];
+        if (videos.length === 0) {
+            container.innerHTML = `
+                <div class="videos-coming-soon">
+                    <div class="videos-icon">🎬</div>
+                    <h3>Vidéos à venir</h3>
+                    <p>Les vidéos sur lesquelles j'ai travaillé seront bientôt disponibles ici.</p>
+                </div>
+            `;
+            return;
+        }
+    }
+
+    container.innerHTML = displayItems.map((project, index) => {
         const imageStyle = project.image
             ? `background-image: url('${project.image}');`
             : `background: ${project.gradient};`;
 
         const posterClass = project.isPoster ? ' poster' : '';
+        const sizeClass = project.photoSize ? ` photo-${project.photoSize}` : '';
+        const dataLink = project.isPoster && project.link && project.link !== '#' ? ` data-link="${project.link}"` : '';
+
+        const viewBtn = project.link && project.link !== '#' && !project.isPoster
+            ? `<a href="${project.link}" class="view-project">Voir le projet →</a>`
+            : '';
+
+        // Photos : <img> pour garder le ratio naturel (vertical/horizontal)
+        const isPhoto = project.category === 'photos';
+        const imageContent = isPhoto && project.image
+            ? `<img src="${project.image}" alt="${project.title}" loading="lazy">`
+            : '';
+
+        // Photos : pas d'animation-delay (tout apparaît d'un coup au "Voir plus")
+        const animDelay = isPhoto ? '' : ` style="animation-delay: ${index * 0.05}s"`;
 
         return `
-            <div class="portfolio-item${posterClass}" data-category="${project.category}" style="animation-delay: ${index * 0.1}s">
-                <div class="portfolio-image" style="${imageStyle}">
+            <div class="portfolio-item${posterClass}${sizeClass}" data-category="${project.category}"${dataLink}${animDelay}>
+                <div class="portfolio-image"${!isPhoto ? ` style="${imageStyle}"` : ''}>
+                    ${imageContent}
                     <div class="portfolio-overlay">
                         <h3>${project.title}</h3>
                         <p>${project.description}</p>
-                        <a href="${project.link}" class="view-project">Voir le projet →</a>
+                        ${viewBtn}
                     </div>
                 </div>
             </div>
         `;
     }).join('');
+
+    // Bouton "Voir plus" pour les photos
+    const existingBtn = document.getElementById('voir-plus-photos');
+    if (existingBtn) existingBtn.remove();
+
+    if (hasMore) {
+        const btn = document.createElement('button');
+        btn.id = 'voir-plus-photos';
+        btn.className = 'voir-plus-btn';
+        btn.textContent = `Voir plus (${filtered.length - PHOTOS_PAR_PAGE} photos restantes)`;
+        btn.addEventListener('click', () => {
+            renderPortfolioItems('photos', true);
+        });
+        container.parentElement.appendChild(btn);
+    }
+
+    // Photos : masonry JS après rendu
+    if (isPhotos) {
+        // Rendre visible immédiatement (pas d'animation séquentielle)
+        container.querySelectorAll('.portfolio-item').forEach(item => {
+            item.classList.add('visible');
+        });
+        initMasonryPhotos(container);
+    } else {
+        // Déclenche les animations de scroll sur les nouveaux items
+        setTimeout(() => {
+            document.querySelectorAll('.portfolio-item').forEach(item => {
+                item.classList.add('visible');
+            });
+        }, 50);
+    }
+}
+
+// ========================================
+// MASONRY PHOTOS
+// ========================================
+
+let masonryResizeObserver = null;
+
+function initMasonryPhotos(container) {
+    // Nombre de colonnes selon la largeur
+    function getColCount() {
+        const w = container.offsetWidth;
+        if (w < 600) return 2;
+        if (w < 900) return 3;
+        return 4;
+    }
+
+    const GAP = 16; // px entre les items
+
+    function layout() {
+        const items = Array.from(container.querySelectorAll('.portfolio-item'));
+        if (!items.length) return;
+
+        const colCount = getColCount();
+        const totalGap = GAP * (colCount - 1);
+        const colWidth = (container.offsetWidth - totalGap) / colCount;
+
+        // Hauteurs courantes de chaque colonne
+        const colHeights = new Array(colCount).fill(0);
+
+        items.forEach(item => {
+            // Colonne la moins haute
+            const minH = Math.min(...colHeights);
+            const col  = colHeights.indexOf(minH);
+
+            const x = col * (colWidth + GAP);
+            const y = minH;
+
+            item.style.width = colWidth + 'px';
+            item.style.left  = x + 'px';
+            item.style.top   = y + 'px';
+
+            // Hauteur réelle de l'item après positionnement
+            colHeights[col] += item.offsetHeight + GAP;
+        });
+
+        // Hauteur totale du container
+        container.style.height = Math.max(...colHeights) - GAP + 'px';
+    }
+
+    // Layout immédiat — pas d'attente, les photos apparaissent tout de suite
+    layout();
+
+    // Recalcul à chaque image chargée (corrige les hauteurs au fur et à mesure)
+    const imgs = Array.from(container.querySelectorAll('img'));
+    imgs.forEach(img => {
+        if (!img.complete) {
+            img.addEventListener('load',  layout, { once: true });
+            img.addEventListener('error', layout, { once: true });
+        }
+    });
+
+    // Re-layout au resize
+    if (masonryResizeObserver) masonryResizeObserver.disconnect();
+    masonryResizeObserver = new ResizeObserver(() => layout());
+    masonryResizeObserver.observe(container);
+}
+
+function generatePortfolio() {
+    renderPortfolioItems('all');
 }
 
 function generateContactInfo() {
@@ -265,7 +424,7 @@ function initCustomCursor() {
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
     const cursor = document.getElementById('cursor');
-    const interactiveElements = document.querySelectorAll('a, button, .card, .portfolio-item, .social-card');
+    const interactiveElements = document.querySelectorAll('a, button, .card, .portfolio-item, .sn-card');
 
     document.addEventListener('mousemove', (e) => {
         cursor.style.left = e.clientX + 'px';
@@ -318,7 +477,7 @@ function initScrollAnimations() {
         });
     }, observerOptions);
 
-    document.querySelectorAll('.service-card, .portfolio-item, .social-card').forEach(item => {
+    document.querySelectorAll('.service-card, .portfolio-item, .sn-card').forEach(item => {
         observer.observe(item);
     });
 }
@@ -348,7 +507,7 @@ if (window.matchMedia('(min-width: 769px)').matches) {
 
 function initPortfolioFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    const grid = document.getElementById('portfolio-grid');
 
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -357,16 +516,13 @@ function initPortfolioFilters() {
 
             const filter = button.getAttribute('data-filter');
 
-            portfolioItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-                if (filter === 'all' || category === filter) {
-                    item.classList.remove('hidden');
-                    item.style.animation = 'none';
-                    setTimeout(() => { item.style.animation = ''; }, 10);
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
+            // Mode masonry uniquement pour les photos
+            grid.classList.remove('filter-photos', 'filter-videos');
+            if (filter === 'photos') grid.classList.add('filter-photos');
+            if (filter === 'videos') grid.classList.add('filter-videos');
+
+            // Vide et reremplit le grid avec les bons items
+            renderPortfolioItems(filter);
         });
     });
 }

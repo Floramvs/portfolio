@@ -124,7 +124,44 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Stats — Affiche -->
+    <section class="project-poster-bg">
+        <img class="poster-bg-image" src="../images/Logos/helydia.jpg" alt="Helydia TV">
+        <div class="poster-bg-overlay"></div>
+        <div class="poster-bg-content">
+            <div class="container-narrow">
+                <h2>Mes stats</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-platform">Instagram</span>
+                        <span class="stat-number">—</span>
+                        <span class="stat-label">Abonnés</span>
+                        <span class="stat-date">À compléter</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-platform">X / Twitter</span>
+                        <span class="stat-number">—</span>
+                        <span class="stat-label">Impressions</span>
+                        <span class="stat-date">À compléter</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-platform">TikTok</span>
+                        <span class="stat-number">—</span>
+                        <span class="stat-label">Vues totales</span>
+                        <span class="stat-date">À compléter</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-platform">Collaboration</span>
+                        <span class="stat-number">1 an</span>
+                        <span class="stat-label">Durée du partenariat</span>
+                        <span class="stat-date">2024 — 2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Footer -->
     <footer class="footer">
         <p>&copy; <span id="current-year"></span> FLORAMVS. Tous droits réservés.</p>
     </footer>
@@ -132,12 +169,18 @@
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // Hero image
+        // Hero image — DA: Split Screen
         const hero = document.querySelector('.project-hero');
         const heroImage = hero.dataset.image;
-        hero.style.background = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('${heroImage}')`;
-        hero.style.backgroundSize = 'cover';
-        hero.style.backgroundPosition = 'center';
+        hero.classList.add('hero-motionblur');
+        // Ajouter les deux couches split
+        const splitPhoto = document.createElement('div');
+        splitPhoto.className = 'split-photo';
+        splitPhoto.style.backgroundImage = `url('${heroImage}')`;
+        const splitColor = document.createElement('div');
+        splitColor.className = 'split-color';
+        hero.insertBefore(splitColor, hero.firstChild);
+        hero.insertBefore(splitPhoto, hero.firstChild);
 
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -164,7 +207,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.project-section, .result-card').forEach(item => {
+        document.querySelectorAll('.project-section, .result-card, .stat-card').forEach(item => {
             observer.observe(item);
         });
 

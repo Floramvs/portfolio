@@ -124,7 +124,43 @@
         </div>
     </section>
 
-    <!-- Links -->
+    <!-- Stats — Affiche -->
+    <section class="project-poster-bg gradient-poster">
+        <div class="poster-bg-overlay" style="background: linear-gradient(135deg, rgba(102,126,234,0.7) 0%, rgba(118,75,162,0.7) 100%);"></div>
+        <div class="poster-bg-content">
+            <div class="container-narrow">
+                <h2>Mes stats</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-platform">Instagram</span>
+                        <span class="stat-number">—</span>
+                        <span class="stat-label">Abonnés gagnés</span>
+                        <span class="stat-date">À compléter</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-platform">X / Twitter</span>
+                        <span class="stat-number">—</span>
+                        <span class="stat-label">Impressions totales</span>
+                        <span class="stat-date">À compléter</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-platform">TikTok</span>
+                        <span class="stat-number">—</span>
+                        <span class="stat-label">Vues totales</span>
+                        <span class="stat-date">À compléter</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-platform">Événements</span>
+                        <span class="stat-number">4</span>
+                        <span class="stat-label">Tournois couverts</span>
+                        <span class="stat-date">2025 — 2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Links -->
     <section class="project-section project-links">
         <div class="container-narrow">
             <a href="https://www.webedia-group.com/" target="_blank" rel="noopener noreferrer" class="project-link">
@@ -171,7 +207,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.project-section, .result-card').forEach(item => {
+        document.querySelectorAll('.project-section, .result-card, .stat-card').forEach(item => {
             observer.observe(item);
         });
 

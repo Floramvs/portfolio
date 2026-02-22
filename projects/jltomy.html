@@ -124,7 +124,44 @@
         </div>
     </section>
 
-    <!-- Links -->
+    <!-- Stats — Affiche -->
+    <section class="project-poster-bg">
+        <img class="poster-bg-image" src="../images/Logos/jltomy.png" alt="JL Tomy">
+        <div class="poster-bg-overlay"></div>
+        <div class="poster-bg-content">
+            <div class="container-narrow">
+                <h2>Mes stats</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-platform">TikTok</span>
+                        <span class="stat-number">—</span>
+                        <span class="stat-label">Vues totales</span>
+                        <span class="stat-date">À compléter</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-platform">TikTok</span>
+                        <span class="stat-number">—</span>
+                        <span class="stat-label">Likes obtenus</span>
+                        <span class="stat-date">À compléter</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-platform">Graphisme</span>
+                        <span class="stat-number">—</span>
+                        <span class="stat-label">Visuels créés</span>
+                        <span class="stat-date">À compléter</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-platform">Collaboration</span>
+                        <span class="stat-number">4 ans</span>
+                        <span class="stat-label">Durée du partenariat</span>
+                        <span class="stat-date">2021 — 2024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Links -->
     <section class="project-section project-links">
         <div class="container-narrow">
             <a href="https://www.twitch.tv/jltomy" target="_blank" rel="noopener noreferrer" class="project-link">
@@ -141,12 +178,13 @@
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // Hero image
+        // Hero image — DA: Affiche Cinéma
         const hero = document.querySelector('.project-hero');
         const heroImage = hero.dataset.image;
-        hero.style.background = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('${heroImage}')`;
+        hero.classList.add('hero-texture');
+        hero.style.backgroundImage = `url('${heroImage}')`;
         hero.style.backgroundSize = 'cover';
-        hero.style.backgroundPosition = 'center';
+        hero.style.backgroundPosition = 'center top';
 
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -173,7 +211,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.project-section, .result-card').forEach(item => {
+        document.querySelectorAll('.project-section, .result-card, .stat-card').forEach(item => {
             observer.observe(item);
         });
 

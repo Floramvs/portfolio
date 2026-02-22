@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet — FLORAMVS</title>
+    <meta name="description" content="Détail du projet">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../projet-styles.css">
+    <style>
+        .projet-image-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .projet-image-principale {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            display: block;
+        }
+        .outils-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .outils-list li {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 6px;
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary, #aaa);
+        }
+        .not-found {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        .not-found h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .not-found a {
+            color: inherit;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div id="cursor"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="../index.html" class="logo">← FLORAMVS</a>
+        <ul class="nav-links">
+            <li><a href="../index.html#accueil">Accueil</a></li>
+            <li><a href="../index.html#portfolio">Portfolio</a></li>
+            <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Contenu généré dynamiquement -->
+    <div id="page-content"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; <span id="current-year"></span> FLORAMVS. Tous droits réservés.</p>
+    </footer>
+
+    <script src="../data.js"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Récupère l'ID depuis l'URL (?id=...)
+        const params = new URLSearchParams(window.location.search);
+        const projetId = params.get('id');
+
+        // Cherche le projet dans siteData.portfolio
+        const projet = siteData.portfolio.find(p => p.pageId === projetId);
+
+        const content = document.getElementById('page-content');
+
+        if (!projet) {
+            content.innerHTML = `
+                <div class="not-found">
+                    <h1>Projet introuvable</h1>
+                    <p>Ce projet n'existe pas ou a été déplacé.</p>
+                    <a href="../index.html#portfolio">← Retour au portfolio</a>
+                </div>
+            `;
+        } else {
+            // Met à jour le titre de la page
+            document.title = `${projet.title} — FLORAMVS`;
+
+            // Catégorie lisible
+            const categorieLabel = {
+                affiches: 'Création Graphique',
+                miniatures: 'Miniature / Vignette',
+                photos: 'Photographie'
+            }[projet.category] || projet.category;
+
+            // Outils utilisés
+            const outilsHTML = projet.outils && projet.outils.length
+                ? `<ul class="outils-list">
+                    ${projet.outils.map(o => `<li>${o}</li>`).join('')}
+                   </ul>`
+                : '<p>—</p>';
+
+            content.innerHTML = `
+                <!-- Hero -->
+                <section class="project-hero" id="project-hero">
+                    <div class="project-hero-content">
+                        <div class="project-category">${categorieLabel}</div>
+                        <h1 class="project-title">${projet.title}</h1>
+                        ${projet.subtitle ? `<p class="project-subtitle">${projet.subtitle}</p>` : ''}
+
+                        <div class="project-meta">
+                            ${projet.client ? `
+                            <div class="meta-item">
+                                <span class="meta-label">Client</span>
+                                <span class="meta-value">${projet.client}</span>
+                            </div>` : ''}
+                            ${projet.date ? `
+                            <div class="meta-item">
+                                <span class="meta-label">Date</span>
+                                <span class="meta-value">${projet.date}</span>
+                            </div>` : ''}
+                            <div class="meta-item">
+                                <span class="meta-label">Catégorie</span>
+                                <span class="meta-value">${categorieLabel}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-indicator"></div>
+                </section>
+
+                <!-- Image principale -->
+                ${projet.image ? `
+                <section class="project-section">
+                    <div class="projet-image-container">
+                        <img src="../${projet.image}" alt="${projet.title}" class="projet-image-principale">
+                    </div>
+                </section>` : ''}
+
+                <!-- Description -->
+                ${projet.descriptionDetail ? `
+                <section class="project-section project-description">
+                    <div class="container-narrow">
+                        <p class="lead">${projet.descriptionDetail}</p>
+                    </div>
+                </section>` : ''}
+
+                <!-- Outils utilisés -->
+                <section class="project-section tech-role">
+                    <div class="container">
+                        <div class="two-columns">
+                            <div class="column">
+                                <h3>Outils utilisés</h3>
+                                ${outilsHTML}
+                            </div>
+                            ${projet.role ? `
+                            <div class="column">
+                                <h3>Mon rôle</h3>
+                                <p>${projet.role}</p>
+                            </div>` : ''}
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Lien retour -->
+                <section class="project-section project-links">
+                    <div class="container-narrow">
+                        <a href="../index.html#portfolio" class="project-link">
+                            ← Retour au portfolio
+                        </a>
+                    </div>
+                </section>
+            `;
+
+            // Hero : fond avec l'image si disponible
+            const hero = document.getElementById('project-hero');
+            if (projet.image) {
+                hero.style.background = `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('../${projet.image}')`;
+                hero.style.backgroundSize = 'cover';
+                hero.style.backgroundPosition = 'center';
+            } else if (projet.gradient) {
+                hero.style.background = projet.gradient;
+            }
+
+            // Animations au scroll
+            const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, observerOptions);
+            document.querySelectorAll('.project-section, .result-card').forEach(item => observer.observe(item));
+        }
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.pageYOffset > 100);
+        });
+    </script>
+    <script src="../cursor.js"></script>
+</body>
+</html>
